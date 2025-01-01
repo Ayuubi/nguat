@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import '../schema/structs/index.dart';
+
 import 'package:flutter/foundation.dart';
 
 import '/flutter_flow/flutter_flow_util.dart';
@@ -9,41 +11,27 @@ export 'api_manager.dart' show ApiCallResponse;
 
 const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 
-/// Start Odoo Group Code
-
-class OdooGroup {
-  static String getBaseUrl() => 'https://nagaadhalls.com/';
-  static Map<String, String> headers = {
-    'Content-Type': 'application/json',
-  };
-  static AuthCall authCall = AuthCall();
-  static ProductsCall productsCall = ProductsCall();
-}
-
-class AuthCall {
-  Future<ApiCallResponse> call({
+class AuthenticationCall {
+  static Future<ApiCallResponse> call({
     String? username = '',
     String? password = '',
   }) async {
-    final baseUrl = OdooGroup.getBaseUrl();
-
     final ffApiRequestBody = '''
 {
   "jsonrpc": "2.0",
   "method": "call",
   "params": {
     "db": "postgres",
-    "login": "${username}",
-    "password": "${password}"
-  }
+    "login": "${escapeStringForJson(username)}",
+    "password": "${escapeStringForJson(password)}"
+  },
+  "id": 1
 }''';
     return ApiManager.instance.makeApiCall(
-      callName: 'Auth',
-      apiUrl: '${baseUrl}web/session/authenticate',
+      callName: 'Authentication',
+      apiUrl: 'https://nagaadhalls.com/web/session/authenticate',
       callType: ApiCallType.POST,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: {},
       params: {},
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
@@ -56,35 +44,11 @@ class AuthCall {
     );
   }
 
-  String? username(dynamic response) => castToType<String>(getJsonField(
+  static String? magaca(dynamic response) => castToType<String>(getJsonField(
         response,
         r'''$.result.username''',
       ));
 }
-
-class ProductsCall {
-  Future<ApiCallResponse> call() async {
-    final baseUrl = OdooGroup.getBaseUrl();
-
-    return ApiManager.instance.makeApiCall(
-      callName: 'Products',
-      apiUrl: '${baseUrl}api/products',
-      callType: ApiCallType.GET,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      params: {},
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      isStreamingApi: false,
-      alwaysAllowBody: false,
-    );
-  }
-}
-
-/// End Odoo Group Code
 
 class ApiPagingParams {
   int nextPageNumber = 0;
@@ -131,4 +95,15 @@ String _serializeJson(dynamic jsonVar, [bool isList = false]) {
     }
     return isList ? '[]' : '{}';
   }
+}
+
+String? escapeStringForJson(String? input) {
+  if (input == null) {
+    return null;
+  }
+  return input
+      .replaceAll('\\', '\\\\')
+      .replaceAll('"', '\\"')
+      .replaceAll('\n', '\\n')
+      .replaceAll('\t', '\\t');
 }

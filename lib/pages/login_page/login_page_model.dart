@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
+import 'dart:ui';
 import 'login_page_widget.dart' show LoginPageWidget;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -29,8 +30,8 @@ class LoginPageModel extends FlutterFlowModel<LoginPageWidget> {
   TextEditingController? txtpasswordTextController;
   late bool txtpasswordVisibility;
   String? Function(BuildContext, String?)? txtpasswordTextControllerValidator;
-  // Stores action output result for [Backend Call - API (Auth)] action in btnlogin widget.
-  ApiCallResponse? apiResultmdq;
+  // Stores action output result for [Backend Call - API (Authentication)] action in btnlogin widget.
+  ApiCallResponse? authresponse;
 
   @override
   void initState(BuildContext context) {

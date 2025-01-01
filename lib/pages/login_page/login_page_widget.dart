@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
+import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -80,7 +81,10 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       child: WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
@@ -374,78 +378,100 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                             child: Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 16.0),
-                              child: FFButtonWidget(
-                                onPressed: () async {
-                                  _model.apiResultmdq =
-                                      await OdooGroup.authCall.call(
-                                    username:
-                                        _model.txtusernameTextController.text,
-                                    password:
-                                        _model.txtpasswordTextController.text,
-                                  );
-
-                                  if (OdooGroup.authCall.username(
-                                            (_model.apiResultmdq?.jsonBody ??
-                                                ''),
-                                          ) !=
-                                          null &&
-                                      OdooGroup.authCall.username(
-                                            (_model.apiResultmdq?.jsonBody ??
-                                                ''),
-                                          ) !=
-                                          '') {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => DashbaordWidget(),
-                                      ),
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          '( ${_model.txtusernameTextController.text} )  iska hubi xogta galisay please',
-                                          style: TextStyle(
-                                            color: FlutterFlowTheme.of(context)
-                                                .error,
-                                            fontWeight: FontWeight.bold,
+                              child: FutureBuilder<ApiCallResponse>(
+                                future: AuthenticationCall.call(),
+                                builder: (context, snapshot) {
+                                  // Customize what your widget looks like when it's loading.
+                                  if (!snapshot.hasData) {
+                                    return Center(
+                                      child: SizedBox(
+                                        width: 50.0,
+                                        height: 50.0,
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
                                           ),
                                         ),
-                                        duration: Duration(milliseconds: 4200),
-                                        backgroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .alternate,
                                       ),
                                     );
                                   }
+                                  final btnloginAuthenticationResponse =
+                                      snapshot.data!;
 
-                                  safeSetState(() {});
-                                },
-                                text: 'Sign In',
-                                options: FFButtonOptions(
-                                  width: 230.0,
-                                  height: 65.0,
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 0.0),
-                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 0.0),
-                                  color: FlutterFlowTheme.of(context).accent4,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .override(
-                                        fontFamily: 'Poppins',
+                                  return FFButtonWidget(
+                                    onPressed: () async {
+                                      _model.authresponse =
+                                          await AuthenticationCall.call(
+                                        username: _model
+                                            .txtusernameTextController.text,
+                                        password: _model
+                                            .txtpasswordTextController.text,
+                                      );
+
+                                      if (btnloginAuthenticationResponse
+                                          .succeeded) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                DashbaordWidget(),
+                                          ),
+                                        );
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Check the credentials again',
+                                              style: GoogleFonts.getFont(
+                                                'Ubuntu',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                              ),
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 4000),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .error,
+                                          ),
+                                        );
+                                      }
+
+                                      safeSetState(() {});
+                                    },
+                                    text: 'Sign In',
+                                    options: FFButtonOptions(
+                                      width: 230.0,
+                                      height: 65.0,
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 0.0, 0.0, 0.0),
+                                      iconPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                      color:
+                                          FlutterFlowTheme.of(context).accent4,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .override(
+                                            fontFamily: 'Poppins',
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                            letterSpacing: 0.0,
+                                          ),
+                                      elevation: 3.0,
+                                      borderSide: BorderSide(
                                         color: FlutterFlowTheme.of(context)
                                             .primaryText,
-                                        letterSpacing: 0.0,
+                                        width: 1.0,
                                       ),
-                                  elevation: 3.0,
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(24.0),
-                                ),
+                                      borderRadius: BorderRadius.circular(24.0),
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                           ),

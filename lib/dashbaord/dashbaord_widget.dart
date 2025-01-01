@@ -7,6 +7,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
+import 'dart:ui';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -311,7 +312,10 @@ class _DashbaordWidgetState extends State<DashbaordWidget>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -719,7 +723,7 @@ class _DashbaordWidgetState extends State<DashbaordWidget>
                                                     unselectedLabelColor:
                                                         FlutterFlowTheme.of(
                                                                 context)
-                                                            .primaryText,
+                                                            .secondaryText,
                                                     labelStyle: FlutterFlowTheme
                                                             .of(context)
                                                         .bodyMedium
@@ -1455,7 +1459,7 @@ class _DashbaordWidgetState extends State<DashbaordWidget>
                                           alignment:
                                               AlignmentDirectional(0.0, 0.0),
                                           child: Text(
-                                            'Avg. Orders per day',
+                                            'Last Transactions',
                                             style: FlutterFlowTheme.of(context)
                                                 .headlineMedium
                                                 .override(
@@ -1496,16 +1500,6 @@ class _DashbaordWidgetState extends State<DashbaordWidget>
                                               AlignmentDirectional(1.0, 1.0),
                                           child: Container(
                                             decoration: BoxDecoration(),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                              child: Image.asset(
-                                                'assets/images/chart.png',
-                                                width: double.infinity,
-                                                height: 261.0,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
                                           ),
                                         ),
                                       ],

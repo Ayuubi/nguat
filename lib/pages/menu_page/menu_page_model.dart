@@ -11,6 +11,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/pages/checkout_page/checkout_page_widget.dart';
 import 'dart:math';
+import 'dart:ui';
 import 'menu_page_widget.dart' show MenuPageWidget;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

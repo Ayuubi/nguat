@@ -11,6 +11,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/pages/checkout_page/checkout_page_widget.dart';
 import 'dart:math';
+import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +75,10 @@ class _MenuPageWidgetState extends State<MenuPageWidget>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       child: WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
@@ -685,8 +689,8 @@ class _MenuPageWidgetState extends State<MenuPageWidget>
                                                                   imageUrl:
                                                                       columnMenuRecord
                                                                           .image,
-                                                                  width: 150.0,
-                                                                  height: 100.0,
+                                                                  width: 94.0,
+                                                                  height: 79.0,
                                                                   fit: BoxFit
                                                                       .cover,
                                                                 ),
