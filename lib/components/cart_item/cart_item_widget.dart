@@ -112,8 +112,8 @@ class _CartItemWidgetState extends State<CartItemWidget>
               borderRadius: BorderRadius.circular(8.0),
               child: Image.network(
                 widget!.cartDocument!.image,
-                width: 95.0,
-                height: 45.0,
+                width: 131.0,
+                height: 62.0,
                 fit: BoxFit.cover,
               ),
             ),
